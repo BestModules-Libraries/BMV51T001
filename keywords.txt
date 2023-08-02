@@ -1,0 +1,61 @@
+###################################################
+# Syntax Coloring Map For (BM_MIDIShieldClass)
+###################################################
+
+###################################################
+# Datatypes (KEYWORD1)
+###################################################
+
+BMV51T001	KEYWORD1
+playMIDI	KEYWORD1
+
+###################################################
+# Methods and Functions (KEYWORD2)
+###################################################
+begin	KEYWORD2
+setVolume	KEYWORD2
+setHitSensitivity	KEYWORD2
+setHitTimeInterval	KEYWORD2
+setHitStrengthLayer	KEYWORD2
+setKeyboardOut	KEYWORD2
+setHitOut	KEYWORD2	
+scanKeyboard	KEYWORD2
+scanHit	KEYWORD2
+isKeyboard	KEYWORD2
+isHit	KEYWORD2
+readKeyboardData	KEYWORD2
+readHitADCData	KEYWORD2
+getHitStrengthLayer	KEYWORD2
+
+reset	KEYWORD2
+getFWVer	KEYWORD2
+
+setNoteOn	KEYWORD2
+setNoteOff	KEYWORD2
+setTone	KEYWORD2
+setChannelVolume	KEYWORD2
+setPitchBend	KEYWORD2
+
+
+
+
+
+
+###################################################
+# Constants (LITERAL1)
+###################################################
+BMV51T001_KEYBOARD_ENABLE	LITERAL1
+BMV51T001_KEYBOARD_DISABLE	LITERAL1   
+BMV51T001_HIT_ENABLE	LITERAL1
+BMV51T001_HIT_DISABLE	LITERAL1
+MIDI_PLAYER_BUSY	LITERAL1
+MIDI_PLAYER_NO_BUSY	LITERAL1
+
+
+
+
+
+
+
+
+
