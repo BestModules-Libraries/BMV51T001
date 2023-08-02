@@ -1,14 +1,14 @@
 <div align=center>
-<img src="https://github.com/BestModules-Libraries/img/blob/main/BMV36T001_V1.0.png" width="320" height="240"> 
+<img src="https://github.com/BestModules-Libraries/img/blob/main/BMV51T001_V1.0.png" width="320" height="240"> 
 </div> 
 
 
-BMV36T001
+BMV51T001
 ===========================================================
 
-The BMV36T001 is a compact record and playback shield board from Best Modules, which can communicate with a master using the SPI communication method. This document provides the description of the BMV36T001 Arduino Lib functions and how to install the Arduino Lib. The example demonstrates the record and playback operations as well as SD card voice play operation.
+The BMV51T001 is a MIDI tone library shield with wavetable synthesis from Best Modules, which uses the UART communication method to transmit and receive commands. This document provides the description of the BMV51T001 Arduino Lib functions and how to install the Arduino Lib. The example demonstrates the keyboard and hit functions, as well as MIDI audio play function.
 
-This library can be installed via the Arduino Library manager. Search for **BMV36T001**. 
+This library can be installed via the Arduino Library manager. Search for **BMV51T001**. 
 
 Repository Contents
 -------------------
@@ -21,7 +21,7 @@ Repository Contents
 Documentation 
 -------------------
 
-* **[BMV36T001 Arduino Library V1.0.1 Description v100]( https://www.bestmodulescorp.com/bmv36t001.html#tab-product2 )** - Arduino Library Description.
+* **[BMV51T001 Arduino Library V1.0.1 Description v100]( https://www.bestmodulescorp.com/bmv51t001.html#tab-product2 )** - Arduino Library Description.
 
 Version History  
 -------------------
