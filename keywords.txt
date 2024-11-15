@@ -26,20 +26,13 @@ isHit	KEYWORD2
 readKeyboardData	KEYWORD2
 readHitADCData	KEYWORD2
 getHitStrengthLayer	KEYWORD2
-
 reset	KEYWORD2
 getFWVer	KEYWORD2
-
 setNoteOn	KEYWORD2
 setNoteOff	KEYWORD2
 setTone	KEYWORD2
 setChannelVolume	KEYWORD2
 setPitchBend	KEYWORD2
-
-
-
-
-
 
 ###################################################
 # Constants (LITERAL1)

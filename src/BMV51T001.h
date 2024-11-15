@@ -1,37 +1,26 @@
 /***************************************************************************
-File:       		BMV51T001.h
-Author:           BESTMODULES
-Description:      The UART communicates with the BMV51T001
-History：		  -
-	V1.0.1	 -- initial version；2023-01-17；Arduino IDE : v1.8.13
-
+File:       		  BMV51T001.h
+Author:           BEST MODULES CORP.
+Description:      Define classes and required variables
+Version:          V1.0.2   -- 2024-11-15
 ****************************************************************************/
-
-
 #ifndef  _BMV51T001_H
 #define  _BMV51T001_H
 
 #include "Arduino.h"
 #include "BM_MIDIDefine.h"
 
-
-
 #define    BMV51T001_KEYBOARD_ENABLE    (1)
 #define    BMV51T001_KEYBOARD_DISABLE   (0)
 #define    BMV51T001_HIT_ENABLE         (1)
 #define    BMV51T001_HIT_DISABLE         (0)
 
-
-
-
 /*****************class for the BMV51T001*******************/
 class BMV51T001
 {
-public:
-    
+  public:
     BMV51T001();
-	void begin(void);
-
+	  void begin(void);
     bool setVolume(uint8_t volume);
     bool setHitSensitivity(uint8_t value);
     bool setHitTimeInterval(uint8_t value);
@@ -54,14 +43,10 @@ public:
     void setChannelVolume(uint8_t channelVolume, uint8_t channel);
     void setPitchBend(int16_t pitchValue, uint8_t channel);
 
-
-
-    
-private:
+  private:
     void writeBytes(uint8_t wbuf[], uint8_t wlen);
     bool readBytes(uint8_t rbuf[], uint8_t wlen);
     void sendMIDI(MidiType type, uint8_t data1, uint8_t data2, uint8_t channel);
-
     uint8_t   _mRunningStatus_TX;
     bool      _mRunningStatus;//true:use running status；false:not use runniing ststua
     uint8_t   _hitBuf[2];
@@ -73,9 +58,7 @@ private:
     uint8_t   _isHitFlag;//1：That means there's hit data coming in
     uint8_t   _firstData;
     uint8_t   _firstIn;
-
 };
-
 #endif
 
 

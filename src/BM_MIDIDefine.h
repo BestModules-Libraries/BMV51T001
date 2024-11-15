@@ -1,11 +1,9 @@
 /***************************************************************************
-File:       		BM_MIDIDefine.h
-Author:           BESTMODULE
+File:       		  BM_MIDIDefine.h
+Author:           BEST MODULES CORP.
 Description:      MIDI protocol define
 https://www.midi.org/specifications/midi1-specifications/m1-v4-2-1-midi-1-0-detailed-specification-96-1-4
-History：		  -
-	V1.0.1	 -- initial version；2022-07-29；Arduino IDE : v1.8.13
-
+Version:          V1.0.1   -- 2024-11-15
 ****************************************************************************/
 #ifndef _BM_MIDI_DEFINE_H
 #define _BM_MIDI_DEFINE_H

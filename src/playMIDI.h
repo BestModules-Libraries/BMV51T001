@@ -1,10 +1,8 @@
 /***************************************************************************
-File:       	  palyMIDI.h
-Author:           BESTMODULE
+File:       	    palyMIDI.h
+Author:           BEST MODULES CORP.
 Description:      Play .mid file
-History：		  -
-	V1.0.1	 -- initial version；2022-07-29；Arduino IDE : v1.8.13
-
+Version:          V1.0.1   -- 2024-11-15
 ****************************************************************************/
 #ifndef  __PLAY_MIDI_H
 #define __PLAY_MIDI_H

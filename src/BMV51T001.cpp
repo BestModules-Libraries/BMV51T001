@@ -1,10 +1,8 @@
 /*************************************************************************
-File:       	    BMV51T001.cpp
-Author:           BESTMODULES
-Description:      The UART communicates with the BMV51T001
-History：		  -
-	V1.0.1	 -- initial version；2023-01-17；Arduino IDE : v1.8.13
-
+File:       	  BMV51T001.cpp
+Author:           BEST MODULES CORP.
+Description:      UART communication with the BMV51T001 and obtain the corresponding value  
+Version:          V1.0.2   -- 2024-11-15
 **************************************************************************/
 
 #include "BMV51T001.h"
@@ -34,12 +32,10 @@ History：		  -
 #define BMV51T001_ACK_SUCCESS 0x3e
 #define BMV51T001_ACK_FAILED 0xe3
 /************************************************************************* 
-Description:    Constructor
-parameter:
-    Input:          
-    Output:         
-Return:         
-Others:         
+Description:  Constructor
+parameter:    None       
+Return:       None  
+Others:       None  
 *************************************************************************/
 BMV51T001::BMV51T001()
 {
@@ -55,13 +51,12 @@ BMV51T001::BMV51T001()
     memset(_hitBuf, 0, 2);
     memset(_keyBuf, 0, 8);
 }
+
 /************************************************************************* 
-Description:    MIDI communication initialization
-parameter:
-    Input:          
-    Output:         
-Return:         
-Others:         
+Description:  MIDI communication initialization
+parameter:    void       
+Return:       void 
+Others:       None        
 *************************************************************************/
 void BMV51T001::begin(void)
 {
@@ -76,62 +71,15 @@ void BMV51T001::begin(void)
     Serial.begin(31250);//Initialize the baud rate of the serial port（31250：MIDI communication baud rate）
     delay(100);
     reset();//Reset the slave machine's parameters each time you re - download
-
-}
-/************************************************************************* 
-Description:    Write bytes
-parameter:
-    Input:      wbuf[] : the datas that need to be sent
-                wlen :  the length of datas  
-    Output: 
-Return:         Read status  1:Success 0:Fail     
-Others:         
-**************************************************************************/
-void BMV51T001::writeBytes(uint8_t wbuf[], uint8_t wlen)
-{
-    uint8_t i;
-	for (i = 0; i < wlen; i++)
-	{		
-		Serial.write(wbuf[i]); 
-	}
-}
-/************************************************************************* 
-Description:    Read bytes
-parameter:
-    Input:      wlen :  the length of datas need to read 
-    Output:     rbuf[] : Store the read back datas
-Return:         Read status  1:Success 0:Fail     
-Others:         
-**************************************************************************/
-bool BMV51T001::readBytes(uint8_t rbuf[], uint8_t wlen)
-{
-    uint8_t cnt = 0;
-    uint8_t delay_count = 0;
-    while(1)
-    {
-
-        if (Serial.available() > 0)
-        {
-            if(cnt < wlen)
-            {
-                rbuf[cnt++] = Serial.read();
-                if(cnt==wlen)
-                     return BMV51T001_ACK_SUCCESS;
-            }
-        }
-        delay_count++;
-        delayMicroseconds(50);//waiting for receive data 
-        if(delay_count>=200)return BMV51T001_OPT_FAILED;//timeout is 50us*200=10ms,nothing for receive
-    }
 }
 
 /************************************************************************* 
-Description:    Set the BMV51T001 volume
-parameter:
-    Input:    volume: 0~15(0: Minimum volume(mute))      
-    Output:        
-Return:         Read status  1:Success 0:Fail   
-Others:         
+Description: Set the BMV51T001 volume
+parameter:   volume: volume,Radius: 0~15(0: Minimum volume(mute),default: 5)              
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None        
 *************************************************************************/
 bool BMV51T001::setVolume(uint8_t volume)
 {
@@ -149,10 +97,10 @@ bool BMV51T001::setVolume(uint8_t volume)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Setting hit sensitivity,It's the threshold to detect a hit
-parameter:
-    Input:          value:Level of sensitivity(0~18)
+Description: Setting hit sensitivity,It's the threshold to detect a hit
+parameter:   value:Level of sensitivity,Radius: 0~18
                     The higher the value, the higher the threshold and 
                     the lower the sensitivity
                     value = 0 --> threshold = 100 + 50 * value = 100
@@ -160,10 +108,11 @@ parameter:
                     .
                     .
                     value = 18 --> threshold = 100 + 50 * value = 1000
-                    The threshold initial value is 100
-    Output:         
-Return:         Read status  1:Success 0:Fail   
-Others:         
+                    The threshold initial value is 100      
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None         
 *************************************************************************/
 bool BMV51T001::setHitSensitivity(uint8_t value)
 {
@@ -181,20 +130,21 @@ bool BMV51T001::setHitSensitivity(uint8_t value)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Setting the time interval between two hits
-parameter:
-    Input:          value:Level of time interval(0~33)
+Description: Setting the time interval between two hits
+parameter:   value:Level of time interval,Radius: 0~33
                     The higher the value, the higher the time interval
                     value = 0 --> time interval = 35 + 5 * value = 35ms
                     .
                     .
                     .
                     value = 33 --> time interval = 35 + 5 * value = 200ms
-                    The time interval initial value is 50
-    Output:         
-Return:         Read status  1:Success 0:Fail   
-Others:         
+                    The time interval initial value is 50      
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None          
 *************************************************************************/
 bool BMV51T001::setHitTimeInterval(uint8_t value)
 {
@@ -212,25 +162,27 @@ bool BMV51T001::setHitTimeInterval(uint8_t value)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Set the hit strength layers
-parameter:
-    Input:          layers：The layer number of strength(1~128)
-    Output:         
-Return:         
-Others:         
+Description: Set the hit strength layers
+parameter:   layers：The layer number of strength,Radius: 0~128    
+Return:      void   
+Others:      None         
 **************************************************************************/
 void BMV51T001::setHitStrengthLayer(uint8_t layers)
 {
     _strengthLayers = layers;
 } 
+
 /************************************************************************* 
 Description:    Enable 8x8key keyboard output
-parameter:
-    Input:          status：1: enable; 0: disable
-    Output:         
-Return:         Read status  1:Success 0:Fail   
-Others:         
+parameter:      status: 8 x 8-key Keyboard function status
+                   0x01: enable 
+                   0x00: disable       
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None         
 *************************************************************************/
 bool BMV51T001::setKeyboardOut(uint8_t status)
 {
@@ -248,13 +200,16 @@ bool BMV51T001::setKeyboardOut(uint8_t status)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Enable hit output
-parameter:
-    Input:          status：1: enable; 0: disable
-    Output:         
-Return:         Read status  1:Success 0:Fail 
-Others:         
+Description: Enable hit output
+parameter:   status：Strike function status
+                   0x01: enable 
+                   0x00: disable       
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None         
 *************************************************************************/
 bool BMV51T001::setHitOut(uint8_t status)
 {
@@ -272,13 +227,12 @@ bool BMV51T001::setHitOut(uint8_t status)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Scan 8x8key 
-parameter:
-    Input:          
-    Output:         
-Return:         
-Others:         
+Description: Scan 8x8key 
+parameter:   void      
+Return:      void  
+Others:      None       
 *************************************************************************/
 void BMV51T001::scanKeyboard(void)
 {
@@ -310,13 +264,12 @@ void BMV51T001::scanKeyboard(void)
         }
     }     
 }
+
 /************************************************************************* 
-Description:    Scan hit
-parameter:
-    Input:          
-    Output:         
-Return:         
-Others:         
+Description: Scan hit
+parameter:   void      
+Return:      void  
+Others:      None           
 *************************************************************************/
 void BMV51T001::scanHit(void)
 {
@@ -347,77 +300,78 @@ void BMV51T001::scanHit(void)
             k = 0;
         }
         _hitADCData = ((uint16_t)_hitBuf[1] << 8) + _hitBuf[0];  
-    }   
-    
+    }      
 }
+
 /************************************************************************* 
-Description:    There are key changes
-parameter:
-    Input:          
-    Output:         
-Return:         1: There are key changes; 0: No key changes
-Others:         
+Description: There are key changes
+parameter:   void         
+Return:      Action situation
+               true: Have a movement
+               false: agnosis
+Others:      None           
 *************************************************************************/
 bool BMV51T001::isKeyboard(void)
 {
     return _isKeyFlag;
 }
+
 /************************************************************************* 
-Description:    A hit is detected
-parameter:
-    Input:          
-    Output:         
-Return:         1: A hit; 0: There is no hit
-Others:         
+Description: A hit is detected
+parameter:   void         
+Return:      Action situation
+               true: Have a movement
+               false: agnosis
+Others:      None           
 *************************************************************************/
 bool BMV51T001::isHit(void)
 {
     return _isHitFlag;
 }
+
 /************************************************************************* 
-Description:    Read Keyboard data into the keyBuf array.
-parameter:
-    Input:          
-    Output:         
-Return:         
-Others:         
+Description: Read Keyboard data into the keyBuf array.
+parameter:   keyBuf[]: 8×8 key status, a total of 8 bytes, each bit represents a key
+                  bit=1: press down 
+                  bit=0: Release         
+Return:      void  
+Others:      None         
 **************************************************************************/
 void BMV51T001::readKeyboardData(uint8_t keyBuf[])
 {
     memcpy(keyBuf, _keyBuf, 8);
 }
+
 /************************************************************************* 
-Description:    Read hit ADC data
-parameter:
-    Input:          
-    Output:         
-Return:         Returns hit ADC data
-Others:         
+Description: Read hit ADC data
+parameter:   void        
+Return:      Returns hit ADC data
+Others:      None      
 **************************************************************************/
 uint16_t BMV51T001::readHitADCData(void)
 {
     return _hitADCData;
 }
+
 /************************************************************************* 
-Description:    Gets the strength layer corresponding to the current hit data.
-parameter:
-    Input:      hitData：hit data
-    Output:         
-Return:         Returns hit strength
-Others:         
+Description: Gets the strength layer corresponding to the current hit data.
+parameter:   hitData：hit data         
+Return:      Returns hit strength
+Others:      None        
 **************************************************************************/
 uint8_t BMV51T001::getHitStrengthLayer(uint16_t hitADCData)
 {
     _strength = (uint8_t)(hitADCData/(4096/_strengthLayers));
     return(_strength);
 } 
+
 /************************************************************************* 
-Description:    reset BMV51T001
-parameter:
-    Input:          
-    Output:         
-Return:         Read status  1:Success 0:Fail   
-Others:         
+Description: reset BMV51T001
+parameter:   void
+Return:      Implementation status
+               true: Executed successfully
+               false: Execution failure
+Others:      None          
 *************************************************************************/
 bool BMV51T001::reset(void)
 {
@@ -433,13 +387,12 @@ bool BMV51T001::reset(void)
     }
     return result;
 }
+
 /************************************************************************* 
-Description:    Get F/W version with BMV51T001
-parameter:
-    Input:          
-    Output:         
-Return:         0：Failed to get the version value. non-zero：version value
-Others:         
+Description: Get F/W version with BMV51T001
+parameter:   void         
+Return:      Version number
+Others:      None        
 *************************************************************************/
 uint8_t BMV51T001::getFWVer(void)
 {
@@ -457,16 +410,87 @@ uint8_t BMV51T001::getFWVer(void)
 }
 
 /************************************************************************* 
-Description:    Sends MIDI channel messages, drum tone in channel 10
+Description:  Send note on MIDI message, drum tone in channel 10
 parameter:
-    Input:      type：   MIDI status bytes (excluding channels)
+              noteNumber：Musical note,Radius: 0~127
+              velocity：Note force,Radius: 0~127
+              channel：MIDI channel,Radius: 1~16      
+Return:       void    
+Others:       when use channel 10, the noteNumber ranges from 24 to 84
+**************************************************************************/
+void BMV51T001::setNoteOn(uint8_t noteNumber, uint8_t velocity, uint8_t channel)
+{
+    sendMIDI(NoteOn, noteNumber, velocity, channel);
+}
+
+/************************************************************************* 
+Description:  Send note off MIDI message, drum tone in channel 10
+parameter:
+              noteNumber：Musical note,Radius: 0~127
+              velocity：Note force,Radius: 0~127
+              channel：MIDI channel,Radius: 1~16      
+Return:       void         
+Others:       when use channel 10, the noteNumber ranges from 24 to 84
+**************************************************************************/
+void BMV51T001::setNoteOff(uint8_t noteNumber, uint8_t velocity, uint8_t channel)
+{
+    sendMIDI(NoteOff, noteNumber, velocity, channel);
+}
+
+/************************************************************************* 
+Description: Send Program Change MIDI message
+parameter:
+             toneNumber：program number,Radius: 0~127
+             channel：MIDI channel,Radius: 1~16      
+Return:      void        
+Others:      None        
+**************************************************************************/
+void BMV51T001::setTone(uint8_t toneNumber, uint8_t channel)
+{
+    sendMIDI(ProgramChange, toneNumber, 0, channel);
+}
+
+/************************************************************************* 
+Description:    Set the channel volume level.
+parameter:
+             channelvolume： Channel volume value,Radius:0~127(0:minimum channel volume, 127:maximum channel volume)
+             channel：MIDI channel,Radius: 1~16      
+Return:      void         
+Others:      Note that it is different from the volume in the onboard buttons
+**************************************************************************/
+void BMV51T001::setChannelVolume(uint8_t channelVolume, uint8_t channel)
+{
+    sendMIDI(ControlChange, ChannelVolume, channelVolume, channel);
+}
+
+/************************************************************************* 
+Description: Send a Pitch Bend message using a signed integer value.
+parameter:
+             pitchValue：The amount of bend to send (in a signed integer format),
+                            Radius: -8192 ~ 8191
+                            0 : the central (no bend) setting.
+                            -8192 :the maximum downwards bend, and
+                            8191 :the maximum upwards bend.
+             channel：MIDI channel,Radius: 1~16      
+Return:      void          
+Others:      None        
+**************************************************************************/
+void BMV51T001::setPitchBend(int16_t pitchValue, uint8_t channel)
+{
+    const unsigned bend = unsigned(pitchValue - int16_t(MIDI_PITCHBEND_MIN));
+    sendMIDI(PitchBend, (bend & 0x7f), (bend >> 7) & 0x7f, channel);		    
+}
+
+/************************************************************************* 
+Description: Sends MIDI channel messages, drum tone in channel 10
+parameter:
+              type：   MIDI status bytes (excluding channels)
                         fit parameters are NoteOff/NoteOn/ControlChange/ProgramChange/PitchBend
-                data1：  MIDI Message data byte 1(0~127)
-                data2：  MIDI Message data byte 2(0~127)
-                channel：MIDI channel(1~16)
-    Output:         
-Return:         
-Others:         when use channel 10, the data1 ranges from 24 to 84
+              data1：  MIDI Message data byte 1(0~127)
+              data2：  MIDI Message data byte 2(0~127)
+              channel：MIDI channel(1~16)         
+Return:      void       
+Others:      when use channel 10, the data1 ranges from 24 to 84
 **************************************************************************/
 void BMV51T001::sendMIDI(MidiType type, uint8_t data1, uint8_t data2, uint8_t channel)
 {
@@ -508,78 +532,49 @@ void BMV51T001::sendMIDI(MidiType type, uint8_t data1, uint8_t data2, uint8_t ch
         }
     }
 }
-/************************************************************************* 
-Description:    Send note on MIDI message, drum tone in channel 10
-parameter:
-    Input:      noteNumber：note(0~127)
-                velocity：0~127
-                channel：MIDI channel(1~16)
-    Output:         
-Return:         
-Others:         when use channel 10, the noteNumber ranges from 24 to 84
-**************************************************************************/
-void BMV51T001::setNoteOn(uint8_t noteNumber, uint8_t velocity, uint8_t channel)
-{
-    sendMIDI(NoteOn, noteNumber, velocity, channel);
-}
-
 
 /************************************************************************* 
-Description:    Send note off MIDI message, drum tone in channel 10
-parameter:
-    Input:      noteNumber：note(0~127)
-                velocity：0~127
-                channel：MIDI channel(1~16)
-    Output:         
-Return:         
-Others:         when use channel 10, the noteNumber ranges from 24 to 84
+Description: Write bytes
+parameter:   wbuf[] : the datas that need to be sent
+             wlen :  the length of datas   
+Return:      void    
+Others:      None         
 **************************************************************************/
-void BMV51T001::setNoteOff(uint8_t noteNumber, uint8_t velocity, uint8_t channel)
+void BMV51T001::writeBytes(uint8_t wbuf[], uint8_t wlen)
 {
-    sendMIDI(NoteOff, noteNumber, velocity, channel);
-}
-/************************************************************************* 
-Description:    Send Program Change MIDI message
-parameter:
-    Input:          toneNumber：program number(0~127)
-                    channel：MIDI channel(1~16)
-    Output:         
-Return:         
-Others:         
-**************************************************************************/
-void BMV51T001::setTone(uint8_t toneNumber, uint8_t channel)
-{
-    sendMIDI(ProgramChange, toneNumber, 0, channel);
-}
-/************************************************************************* 
-Description:    Set the channel volume level.
-parameter:
-    Input:      volume：0~127(0:minimum channel volume, 127:maximum channel volume)
-                channel：MIDI channel(1~16)
-    Output:         
-Return:         
-Others:         Note that it is different from the volume in the onboard buttons
-**************************************************************************/
-void BMV51T001::setChannelVolume(uint8_t channelVolume, uint8_t channel)
-{
-    sendMIDI(ControlChange, ChannelVolume, channelVolume, channel);
-}
-/************************************************************************* 
-Description:    Send a Pitch Bend message using a signed integer value.
-parameter:
-    Input:      pitchValue：The amount of bend to send (in a signed integer format),
-                            The range is -8192 ~ 8191
-                            0 : the central (no bend) setting.
-                            -8192 :the maximum downwards bend, and
-                            8191 :the maximum upwards bend.
-                channel：The channel on which the message will be sent(1~16)
-    Output:         
-Return:         
-Others:         
-**************************************************************************/
-void BMV51T001::setPitchBend(int16_t pitchValue, uint8_t channel)
-{
-    const unsigned bend = unsigned(pitchValue - int16_t(MIDI_PITCHBEND_MIN));
-    sendMIDI(PitchBend, (bend & 0x7f), (bend >> 7) & 0x7f, channel);		    
+    uint8_t i;
+	for (i = 0; i < wlen; i++)
+	{		
+		Serial.write(wbuf[i]); 
+	}
 }
 
+/************************************************************************* 
+Description: Read bytes
+parameter:
+             rbuf[] : Store the read back datas
+             wlen :  the length of datas need to read   
+Return:      Read status  1:Success 0:Fail     
+Others:      None          
+**************************************************************************/
+bool BMV51T001::readBytes(uint8_t rbuf[], uint8_t wlen)
+{
+    uint8_t cnt = 0;
+    uint8_t delay_count = 0;
+    while(1)
+    {
+
+        if (Serial.available() > 0)
+        {
+            if(cnt < wlen)
+            {
+                rbuf[cnt++] = Serial.read();
+                if(cnt==wlen)
+                     return BMV51T001_ACK_SUCCESS;
+            }
+        }
+        delay_count++;
+        delayMicroseconds(50);//waiting for receive data 
+        if(delay_count>=200)return BMV51T001_OPT_FAILED;//timeout is 50us*200=10ms,nothing for receive
+    }
+}
